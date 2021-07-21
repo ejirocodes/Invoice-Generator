@@ -1,11 +1,15 @@
 import Head from 'next/head';
-import { useReducer, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 
 export default function Home() {
   const initialState = {
+    sender: '',
     billTo: '',
     shipTo: '',
     dueDate: '',
+    invoiceItem: '',
+    quantity: '',
+    unitPrice: '',
     note: '',
   };
 
@@ -13,14 +17,21 @@ export default function Home() {
     return { ...state, [field]: value };
   }
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [formFields, dispatch] = useReducer(reducer, initialState);
   const [total, setTotal] = useState(0);
 
   const handleInputChange = (e) => {
     dispatch({ field: e.target.name, value: e.target.value });
-
-    console.log(state);
   };
+
+  const getTotal = () => {
+    return setTotal(formFields.quantity * formFields.unitPrice);
+  };
+
+  useEffect(() => {
+    getTotal();
+    console.log(total);
+  }, [total, formFields.quantity, formFields.unitPrice]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -29,7 +40,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20">
+      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 my-12">
         <div className="w-full max-w-6xl">
           <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div className="mb-4">
@@ -49,7 +60,7 @@ export default function Home() {
                 onChange={handleInputChange}
               />
               <label
-                className="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-700 text-sm font-bold my-3"
                 htmlFor="billTo"
               >
                 Bill To
@@ -63,7 +74,6 @@ export default function Home() {
                 placeholder="Who is this invoice to? (required)"
                 onChange={handleInputChange}
               />
-              {state.billTo}
             </div>
             <div className="mb-6">
               <label
@@ -75,9 +85,9 @@ export default function Home() {
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                 id="shipTo"
-                type="text"
+                type="email"
                 required
-                placeholder="******************"
+                placeholder="Client's email"
               />
             </div>
             <div className="mb-6">
@@ -103,6 +113,7 @@ export default function Home() {
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                   id="invoiceItem"
+                  name="invoiceItem"
                   type="text"
                   spellCheck="false"
                   onChange={handleInputChange}
@@ -116,6 +127,7 @@ export default function Home() {
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                   id="quantity"
+                  name="quantity"
                   type="number"
                   spellCheck="false"
                   onChange={handleInputChange}
@@ -129,6 +141,7 @@ export default function Home() {
                 <input
                   className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                   id="unitPrice"
+                  name="unitPrice"
                   type="tel"
                   spellCheck="false"
                   onChange={handleInputChange}
@@ -176,18 +189,6 @@ export default function Home() {
           </form>
         </div>
       </main>
-
-      <footer className="flex items-center justify-center w-full h-24 border-t">
-        <a
-          className="flex items-center justify-center"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
-        </a>
-      </footer>
     </div>
   );
 }
