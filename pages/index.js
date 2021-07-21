@@ -153,9 +153,12 @@ export default function Home() {
               />
             </div>
             {invoiceFields.map((invoiceField, i) => (
-              <div className="flex" key={`${invoiceField}~${i}`}>
+              <div
+                className="flex justify-center items-center"
+                key={`${invoiceField}~${i}`}
+              >
                 <label
-                  className="block text-gray-700 text-sm font-bold mb-2 w-full mr-8"
+                  className="block text-gray-700 text-sm font-bold mb-2 w-full mr-5"
                   htmlFor={`${invoiceField.itemDescription}~${i}`}
                 >
                   Invoice Item
@@ -170,7 +173,7 @@ export default function Home() {
                   />
                 </label>
                 <label
-                  className="block text-gray-700 text-sm font-bold mb-2 w-full mr-8"
+                  className="block text-gray-700 text-sm font-bold mb-2 w-full mr-5"
                   htmlFor={`${invoiceField.qty}~${i}`}
                 >
                   Quantity
@@ -185,7 +188,7 @@ export default function Home() {
                   />
                 </label>
                 <label
-                  className="block text-gray-700 text-sm font-bold mb-2 w-full"
+                  className="block text-gray-700 text-sm font-bold mb-2 w-full  mr-5"
                   htmlFor={`${invoiceField.price}~${i}`}
                 >
                   Unit Price
@@ -200,7 +203,7 @@ export default function Home() {
                   />
                 </label>
                 <button
-                  className="bg-red-500 hover:bg-red-700 text-white font-bold rounded focus:outline-none focus:shadow-outline"
+                  className="bg-red-500 hover:bg-red-700 h-8 px-5 py-3 flex items-center justify-center text-white font-bold rounded focus:outline-none focus:shadow-outline"
                   type="button"
                   onClick={() => handleRemoveInvoice(i)}
                 >
