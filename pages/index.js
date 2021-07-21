@@ -31,24 +31,28 @@ export default function Home() {
     dispatch({ field: e.target.name, value: e.target.value });
   };
 
-  const getTotal = () => {
-    return setTotal(formFields.quantity * formFields.unitPrice);
-  };
-
   const addInvoiceItem = () => {
-    setInvoiceItems([
-      ...invoiceItems,
+    // const values = [...invoiceFields];
+    // values.push({
+    //   itemDescription: '',
+    //   qty: '',
+    //   price: '',
+    // });
+    // setInvoiceFields(values);
+
+    setInvoiceFields([
+      ...invoiceFields,
       {
         itemDescription: '',
-        rate: '',
+        qty: '',
         price: '',
       },
     ]);
+    console.log(invoiceFields);
   };
 
   const handleChange = (index, event) => {
     const values = [...invoiceFields];
-    console.log(event.target.name);
     if (event.target.name === 'itemDescription') {
       values[index].itemDescription = event.target.value;
     } else if (event.target.name === 'qty') {
@@ -59,14 +63,21 @@ export default function Home() {
     setInvoiceFields(values);
   };
 
+  const getTotal = () => {
+    let computedTotal = 0;
+    invoiceFields.forEach((field) => {
+      const quantityNumber = parseFloat(field.qty);
+      const rateNumber = parseFloat(field.price);
+      const amount =
+        quantityNumber && rateNumber ? quantityNumber * rateNumber : 0;
+      computedTotal += amount;
+    });
+    return setTotal(computedTotal);
+  };
+
   useEffect(() => {
     getTotal();
-  }, [
-    total,
-    formFields.quantity,
-    formFields.unitPrice,
-    formFields.invoiceItem,
-  ]);
+  }, [total, invoiceFields]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -143,12 +154,12 @@ export default function Home() {
               <div className="flex" key={`${invoiceField}~${i}`}>
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2 w-full mr-8"
-                  htmlFor="itemDescription"
+                  htmlFor={`${invoiceField.itemDescription}~${i}`}
                 >
                   Invoice Item
                   <input
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id="itemDescription"
+                    id={`${invoiceField.itemDescription}~${i}`}
                     name="itemDescription"
                     type="text"
                     spellCheck="false"
@@ -158,12 +169,12 @@ export default function Home() {
                 </label>
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2 w-full mr-8"
-                  htmlFor="quantity"
+                  htmlFor={`${invoiceField.qty}~${i}`}
                 >
                   Quantity
                   <input
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id="quantity"
+                    id={`${invoiceField.qty}~${i}`}
                     name="qty"
                     type="number"
                     spellCheck="false"
@@ -173,12 +184,12 @@ export default function Home() {
                 </label>
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2 w-full"
-                  htmlFor="unitPrice"
+                  htmlFor={`${invoiceField.price}~${i}`}
                 >
                   Unit Price
                   <input
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id="unitPrice"
+                    id={`${invoiceField.price}~${i}`}
                     name="price"
                     type="tel"
                     spellCheck="false"
@@ -191,7 +202,7 @@ export default function Home() {
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               type="button"
-              // onClick={addInvoiceItem}
+              onClick={addInvoiceItem}
             >
               Add Item
             </button>
@@ -208,6 +219,7 @@ export default function Home() {
                 onChange={handleInputChange}
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
               />
+              {/* <pre>{JSON.stringify(invoiceFields, null, 2)}</pre> */}
             </div>
             <div className="mb-6 flex justify-between font-bold text-xl">
               <p>Total:</p>
