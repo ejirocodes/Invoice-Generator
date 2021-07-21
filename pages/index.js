@@ -49,6 +49,7 @@ export default function Home() {
 
   const handleRemoveInvoice = (index) => {
     const values = [...invoiceFields];
+    if (values.length === 1) return false;
     values.splice(index, 1);
     setInvoiceFields(values);
   };
