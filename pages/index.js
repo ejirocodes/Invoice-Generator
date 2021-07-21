@@ -7,9 +7,6 @@ export default function Home() {
     billTo: '',
     shipTo: '',
     dueDate: '',
-    invoiceItem: '',
-    quantity: '',
-    unitPrice: '',
     note: '',
   };
 
@@ -48,7 +45,12 @@ export default function Home() {
         price: '',
       },
     ]);
-    console.log(invoiceFields);
+  };
+
+  const handleRemoveInvoice = (index) => {
+    const values = [...invoiceFields];
+    values.splice(index, 1);
+    setInvoiceFields(values);
   };
 
   const handleChange = (index, event) => {
@@ -197,6 +199,13 @@ export default function Home() {
                     onChange={(event) => handleChange(i, event)}
                   />
                 </label>
+                <button
+                  className="bg-red-500 hover:bg-red-700 text-white font-bold rounded focus:outline-none focus:shadow-outline"
+                  type="button"
+                  onClick={() => handleRemoveInvoice(i)}
+                >
+                  Remove
+                </button>
               </div>
             ))}
             <button
