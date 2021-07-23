@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { useEffect, useReducer, useState } from 'react';
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import axios from 'axios';
 
 const styles = StyleSheet.create({
   page: {
@@ -92,8 +93,18 @@ export default function Home() {
     getTotal();
   }, [total, invoiceFields]);
 
-  const handleSendInvoice = () => {
-    console.log({ formFields, invoiceFields, total });
+  const handleSendInvoice = async () => {
+    let { billTo, dueDate, note, sender, shipTo } = formFields;
+    const res = await axios.post('http://localhost:1337/invoices', {
+      billTo,
+      dueDate,
+      note,
+      sender,
+      shipTo,
+      invoiceItemDetails: invoiceFields,
+      total,
+    });
+    console.log(res.data);
   };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
