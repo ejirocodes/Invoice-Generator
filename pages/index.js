@@ -1,5 +1,15 @@
 import Head from 'next/head';
-import { useEffect, useReducer, useRef, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
+import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+
+const styles = StyleSheet.create({
+  page: {
+    flexDirection: 'row',
+  },
+  section: {
+    flexGrow: 1,
+  },
+});
 
 export default function Home() {
   const initialState = {
@@ -82,6 +92,9 @@ export default function Home() {
     getTotal();
   }, [total, invoiceFields]);
 
+  const handleSendInvoice = () => {
+    console.log({ formFields, invoiceFields, total });
+  };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
@@ -90,6 +103,16 @@ export default function Home() {
       </Head>
 
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 my-12">
+        {/* <Document>
+          <Page size="A4" style={styles.page}>
+            <View style={styles.section}>
+              <Text>Hello World!</Text>
+            </View>
+            <View style={styles.section}>
+              <Text>We're inside a PDF!</Text>
+            </View>
+          </Page>
+        </Document> */}
         <div className="w-full max-w-xl">
           <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div className="mb-4">
@@ -134,9 +157,11 @@ export default function Home() {
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                 id="shipTo"
+                name="shipTo"
                 type="email"
                 required
                 placeholder="Client's email"
+                onChange={handleInputChange}
               />
             </div>
             <div className="mb-6">
@@ -149,6 +174,7 @@ export default function Home() {
               <input
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
                 id="dueDate"
+                name="dueDate"
                 type="date"
                 onChange={handleInputChange}
               />
@@ -242,6 +268,7 @@ export default function Home() {
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="button"
+                onClick={handleSendInvoice}
               >
                 Send Invoice
               </button>
