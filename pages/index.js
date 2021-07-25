@@ -1,16 +1,6 @@
 import Head from 'next/head';
 import { useEffect, useReducer, useState } from 'react';
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 import axios from 'axios';
-
-const styles = StyleSheet.create({
-  page: {
-    flexDirection: 'row',
-  },
-  section: {
-    flexGrow: 1,
-  },
-});
 
 export default function Home() {
   const initialState = {
@@ -124,16 +114,6 @@ export default function Home() {
       </Head>
 
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 my-12">
-        {/* <Document>
-          <Page size="A4" style={styles.page}>
-            <View style={styles.section}>
-              <Text>Hello World!</Text>
-            </View>
-            <View style={styles.section}>
-              <Text>We're inside a PDF!</Text>
-            </View>
-          </Page>
-        </Document> */}
         <div className="w-full max-w-xl">
           <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div className="mb-4">
