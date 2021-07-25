@@ -94,17 +94,22 @@ export default function Home() {
   }, [total, invoiceFields]);
 
   const handleSendInvoice = async () => {
-    let { billTo, dueDate, note, sender, shipTo } = formFields;
-    const res = await axios.post('http://localhost:1337/invoices', {
-      billTo,
-      dueDate,
-      note,
-      sender,
-      shipTo,
-      invoiceItemDetails: invoiceFields,
-      total,
-    });
-    console.log(res.data);
+    try {
+      let { billTo, dueDate, note, sender, shipTo } = formFields;
+      const res = await axios.post('http://localhost:1337/invoices', {
+        billTo,
+        dueDate,
+        note,
+        sender,
+        shipTo,
+        invoiceItemDetails: invoiceFields,
+        total,
+      });
+      console.log(res.data);
+      window.print();
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
