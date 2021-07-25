@@ -96,7 +96,7 @@ export default function Home() {
   const handleSendInvoice = async () => {
     try {
       let { billTo, dueDate, note, sender, shipTo } = formFields;
-      const res = await axios.post('http://localhost:1337/invoices', {
+      const { data } = await axios.post('http://localhost:1337/invoices', {
         billTo,
         dueDate,
         note,
@@ -105,12 +105,17 @@ export default function Home() {
         invoiceItemDetails: invoiceFields,
         total,
       });
-      console.log(res.data);
+      console.log(data);
       window.print();
     } catch (error) {
       console.error(error);
     }
   };
+
+  const handlePrintInvoice = () => {
+    window.print();
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <Head>
@@ -291,6 +296,7 @@ export default function Home() {
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 type="button"
+                onClick={handlePrintInvoice}
               >
                 Download Invoice
               </button>
