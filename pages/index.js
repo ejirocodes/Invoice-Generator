@@ -38,6 +38,15 @@ export default function Home() {
     // });
     // setInvoiceFields(values);
 
+    // setInvoiceFields((prevState) => [
+    //   ...prevState,
+    //   {
+    //     itemDescription: '',
+    //     qty: '',
+    //     price: '',
+    //   },
+    // ]);
+
     setInvoiceFields([
       ...invoiceFields,
       {
